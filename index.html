@@ -1,0 +1,989 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Travel Agent Handbook</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Literata:opsz,wght@7..72,400;7..72,600&family=JetBrains+Mono:wght@400;500&display=swap">
+
+<style>
+  /* ============================================================
+     Harbour — the portal's own light theme, carried into print.
+     Single theme on purpose: the product has no dark mode, and a
+     dark page around light screenshots reads as a fault.
+     ============================================================ */
+  :root {
+    color-scheme: light;
+
+    --paper: oklch(0.985 0.003 250);
+    --surface: oklch(1 0 0);
+    --surface-subtle: oklch(0.975 0.004 250);
+    --muted: oklch(0.96 0.006 250);
+    --border: oklch(0.912 0.008 250);
+    --border-strong: oklch(0.855 0.012 250);
+
+    --ink: oklch(0.245 0.02 258);
+    --ink-muted: oklch(0.52 0.02 258);
+    --ink-subtle: oklch(0.53 0.016 258);
+
+    --harbour: oklch(0.48 0.118 252);
+    --harbour-soft: oklch(0.955 0.022 252);
+    --harbour-border: oklch(0.88 0.048 252);
+
+    --ochre: oklch(0.54 0.145 76);
+    --ochre-soft: oklch(0.968 0.045 76);
+
+    --danger: oklch(0.545 0.195 25);
+    --danger-soft: oklch(0.96 0.035 25);
+    --success: oklch(0.52 0.135 158);
+    --success-soft: oklch(0.96 0.035 158);
+
+    /* The ten booking states, exactly as the portal paints them. */
+    --s-draft: oklch(0.54 0.02 258);          --s-draft-bg: oklch(0.965 0.004 258);
+    --s-submitted: oklch(0.545 0.15 72);      --s-submitted-bg: oklch(0.972 0.04 72);
+    --s-amendment: oklch(0.545 0.165 48);     --s-amendment-bg: oklch(0.968 0.04 48);
+    --s-amended: oklch(0.55 0.15 295);        --s-amended-bg: oklch(0.965 0.03 295);
+    --s-confirmed: oklch(0.52 0.135 158);     --s-confirmed-bg: oklch(0.96 0.035 158);
+    --s-modification: oklch(0.53 0.115 232);  --s-modification-bg: oklch(0.96 0.03 232);
+    --s-cancelreq: oklch(0.55 0.15 12);       --s-cancelreq-bg: oklch(0.965 0.03 12);
+    --s-cancelled: oklch(0.52 0.12 12);       --s-cancelled-bg: oklch(0.96 0.03 12);
+    --s-rejected: oklch(0.5 0.185 25);        --s-rejected-bg: oklch(0.96 0.035 25);
+    --s-expired: oklch(0.54 0.01 258);        --s-expired-bg: oklch(0.965 0.003 258);
+
+    --display: "Literata", Georgia, "Times New Roman", serif;
+    --body: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ---------- shell ---------- */
+  .wrap {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding-inline: 16px;
+    padding-block: 0;
+  }
+
+  .masthead {
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .masthead .wrap { padding-block: 40px 32px; }
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--harbour);
+    margin: 0 0 14px;
+  }
+  h1 {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: clamp(30px, 5.5vw, 46px);
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    margin: 0 0 14px;
+    text-wrap: balance;
+  }
+  .standfirst {
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--ink-muted);
+    max-width: 62ch;
+    margin: 0;
+  }
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 22px;
+    margin-top: 26px;
+    font-size: 12.5px;
+    color: var(--ink-subtle);
+  }
+  .meta b { color: var(--ink); font-weight: 600; }
+
+  /* ---------- two-column body ---------- */
+  .layout {
+    display: grid;
+    grid-template-columns: 216px minmax(0, 1fr);
+    gap: 52px;
+    align-items: start;
+  }
+  .layout > .wrap { padding-inline: 0; }
+
+  nav.toc {
+    position: sticky;
+    top: calc(env(safe-area-inset-top, 0px) + 24px);
+    font-size: 13px;
+    padding-block: 44px;
+  }
+  nav.toc p {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-subtle);
+    margin: 0 0 12px;
+  }
+  nav.toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+  nav.toc a {
+    display: grid;
+    grid-template-columns: 22px 1fr;
+    gap: 6px;
+    padding: 5px 8px;
+    border-radius: 6px;
+    color: var(--ink-muted);
+    text-decoration: none;
+    line-height: 1.35;
+  }
+  nav.toc a:hover { background: var(--muted); color: var(--ink); }
+  nav.toc a span { font-family: var(--mono); font-size: 11px; color: var(--ink-subtle); padding-top: 1px; }
+
+  main { padding-block: 44px 72px; min-width: 0; }
+
+  section { scroll-margin-top: 24px; }
+  section + section { margin-top: 54px; }
+
+  h2 {
+    font-family: var(--display);
+    font-size: 25px;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    line-height: 1.25;
+    margin: 0 0 6px;
+    text-wrap: balance;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 12px;
+    align-items: baseline;
+  }
+  h2 .num {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--harbour);
+    letter-spacing: 0;
+  }
+  h3 {
+    font-family: var(--body);
+    font-size: 15px;
+    font-weight: 600;
+    margin: 30px 0 8px;
+    letter-spacing: -0.005em;
+  }
+  .lede { color: var(--ink-muted); margin: 0 0 20px; max-width: 66ch; }
+  p { max-width: 66ch; margin: 0 0 14px; }
+  ul, ol.steps { max-width: 66ch; }
+
+  a { color: var(--harbour); }
+
+  /* ---------- numbered task steps ---------- */
+  ol.steps { list-style: none; counter-reset: s; margin: 0 0 18px; padding: 0; display: grid; gap: 14px; }
+  ol.steps > li {
+    counter-increment: s;
+    display: grid;
+    grid-template-columns: 26px minmax(0, 1fr);
+    gap: 12px;
+  }
+  ol.steps > li::before {
+    content: counter(s);
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--harbour);
+    background: var(--harbour-soft);
+    border: 1px solid var(--harbour-border);
+    border-radius: 50%;
+    width: 22px; height: 22px;
+    display: grid; place-items: center;
+    margin-top: 1px;
+  }
+  ol.steps > li > :first-child { margin-top: 0; }
+  ol.steps p:last-child { margin-bottom: 0; }
+
+  ul.plain { padding-left: 20px; margin: 0 0 16px; display: grid; gap: 7px; }
+
+  /* ---------- screenshot placeholder ---------- */
+  figure.shot {
+    margin: 22px 0;
+    border: 1.5px dashed var(--border-strong);
+    border-radius: 10px;
+    background: repeating-linear-gradient(
+      -45deg, var(--surface-subtle), var(--surface-subtle) 11px, var(--muted) 11px, var(--muted) 22px
+    );
+    padding: 20px;
+  }
+  figure.shot .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--surface);
+    background: var(--ink);
+    border-radius: 4px;
+    padding: 3px 8px;
+  }
+  figure.shot figcaption {
+    margin-top: 12px;
+    font-size: 13.5px;
+    color: var(--ink);
+    max-width: 62ch;
+  }
+  figure.shot figcaption b { font-weight: 600; }
+  figure.shot .how {
+    margin-top: 8px;
+    font-size: 12.5px;
+    color: var(--ink-muted);
+    max-width: 62ch;
+  }
+  figure.shot img { display: block; border-radius: 6px; border: 1px solid var(--border); }
+
+  /* ---------- status chips ---------- */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 999px;
+    padding: 2px 10px;
+    white-space: nowrap;
+  }
+  .chip::before {
+    content: "";
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+  .c-draft { color: var(--s-draft); background: var(--s-draft-bg); }
+  .c-submitted { color: var(--s-submitted); background: var(--s-submitted-bg); }
+  .c-amendment { color: var(--s-amendment); background: var(--s-amendment-bg); }
+  .c-amended { color: var(--s-amended); background: var(--s-amended-bg); }
+  .c-confirmed { color: var(--s-confirmed); background: var(--s-confirmed-bg); }
+  .c-modification { color: var(--s-modification); background: var(--s-modification-bg); }
+  .c-cancelreq { color: var(--s-cancelreq); background: var(--s-cancelreq-bg); }
+  .c-cancelled { color: var(--s-cancelled); background: var(--s-cancelled-bg); }
+  .c-rejected { color: var(--s-rejected); background: var(--s-rejected-bg); }
+  .c-expired { color: var(--s-expired); background: var(--s-expired-bg); }
+
+  /* ---------- tables ---------- */
+  .scroller { overflow-x: auto; margin: 0 0 18px; }
+  table { border-collapse: collapse; width: 100%; font-size: 13.5px; min-width: 520px; }
+  caption { text-align: left; font-size: 12.5px; color: var(--ink-subtle); padding-bottom: 8px; }
+  th, td { text-align: left; vertical-align: top; padding: 9px 14px 9px 0; border-bottom: 1px solid var(--border); }
+  th {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--ink-subtle);
+    border-bottom: 1px solid var(--border-strong);
+  }
+  td.who { white-space: nowrap; font-weight: 500; }
+
+  code {
+    font-family: var(--mono);
+    font-size: 0.87em;
+    background: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 5px;
+  }
+  .ref { font-family: var(--mono); font-size: 0.9em; letter-spacing: -0.01em; }
+
+  /* ---------- callouts ---------- */
+  .note {
+    border-left: 3px solid var(--harbour);
+    background: var(--harbour-soft);
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    margin: 20px 0;
+    max-width: 66ch;
+  }
+  .note.warn { border-left-color: var(--ochre); background: var(--ochre-soft); }
+  .note.stop { border-left-color: var(--danger); background: var(--danger-soft); }
+  .note p { margin: 0; max-width: none; }
+  .note p + p { margin-top: 8px; }
+  .note strong { font-weight: 600; }
+
+  /* ---------- capture checklist ---------- */
+  .checklist {
+    border: 1px solid var(--harbour-border);
+    background: var(--surface);
+    border-radius: 12px;
+    padding: 22px 24px;
+    margin: 26px 0 0;
+  }
+  .checklist h3 { margin-top: 0; }
+  .checklist ol { margin: 0; padding-left: 20px; font-size: 13.5px; display: grid; gap: 6px; color: var(--ink-muted); }
+  .checklist ol b { color: var(--ink); font-weight: 600; }
+
+  footer {
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+    margin-top: 64px;
+  }
+  footer .wrap { padding-block: 28px 40px; }
+  footer p { font-size: 12.5px; color: var(--ink-subtle); margin: 0; max-width: 70ch; }
+
+  /* ---------- phone ---------- */
+  @media (max-width: 880px) {
+    .layout { grid-template-columns: 1fr; gap: 0; }
+    nav.toc {
+      position: static;
+      padding-block: 28px 0;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 22px;
+    }
+    nav.toc ol { grid-template-columns: 1fr 1fr; display: grid; }
+    main { padding-block: 32px 56px; }
+    section + section { margin-top: 44px; }
+  }
+  @media (max-width: 520px) {
+    nav.toc ol { grid-template-columns: 1fr; }
+  }
+
+
+  /* A figure that has its picture: solid card, no hatching. */
+  figure.shot.filled {
+    border: 1px solid var(--border);
+    border-style: solid;
+    background: var(--surface);
+    padding: 12px;
+    box-shadow: 0 1px 3px oklch(0.24 0.02 258 / 0.08);
+  }
+  figure.shot.filled img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+  }
+  figure.shot.filled figcaption { margin-top: 12px; padding-inline: 4px; }
+
+  /* ---------- print / PDF ---------- */
+  @media print {
+    body { background: #fff; font-size: 11pt; }
+    .layout { grid-template-columns: 1fr; }
+    nav.toc { display: none; }
+    .masthead { border-bottom: 2px solid var(--ink); }
+    section { break-inside: auto; }
+    h2 { break-after: avoid; }
+    figure.shot, .note, table { break-inside: avoid; }
+    a { color: var(--ink); text-decoration: none; }
+    footer { border-top: 1px solid var(--ink); }
+  }
+
+  :where(a, button):focus-visible {
+    outline: 2px solid var(--harbour);
+    outline-offset: 2px;
+    border-radius: 3px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  }
+</style>
+
+<header class="masthead">
+  <div class="wrap">
+    <p class="eyebrow">Ocean Bay Hotel · Reservations Portal</p>
+    <h1>Travel Agent Handbook</h1>
+    <p class="standfirst">
+      Everything a travel agency needs to send a booking request, follow what happens to it,
+      and change it afterwards. Written for reservations staff, not for IT.
+    </p>
+    <div class="meta">
+      <span><b>For</b> agency admins and agency staff</span>
+      <span><b>Portal</b> stayintake.com</span>
+      <span><b>Sign-in</b> your work email address</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap layout">
+
+  <nav class="toc" aria-label="Contents">
+    <p>Contents</p>
+    <ol>
+      <li><a href="#start"><span>01</span> What this portal is for</a></li>
+      <li><a href="#signin"><span>02</span> Your first sign-in</a></li>
+      <li><a href="#around"><span>03</span> Finding your way around</a></li>
+      <li><a href="#request"><span>04</span> Sending a booking request</a></li>
+      <li><a href="#drafts"><span>05</span> Drafts</a></li>
+      <li><a href="#statuses"><span>06</span> What each status means</a></li>
+      <li><a href="#amendment"><span>07</span> When the hotel asks you to amend</a></li>
+      <li><a href="#change"><span>08</span> Changing or cancelling</a></li>
+      <li><a href="#availability"><span>09</span> Asking about availability</a></li>
+      <li><a href="#notices"><span>10</span> Notices from the hotel</a></li>
+      <li><a href="#company"><span>11</span> Your company profile</a></li>
+      <li><a href="#agents"><span>12</span> Adding your own agents</a></li>
+      <li><a href="#invitations"><span>13</span> Working with more hotels</a></li>
+      <li><a href="#trouble"><span>14</span> When something looks wrong</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <section id="start">
+      <h2><span class="num">01</span> What this portal is for</h2>
+      <p class="lede">It replaces the email thread.</p>
+      <p>
+        Until now a booking request went by email or WhatsApp, and the answer came back the same way.
+        That works until somebody is on leave, a message lands in spam, or two people reply to different
+        copies of the same thread. Then nobody can say what was agreed.
+      </p>
+      <p>
+        In the portal every request has one reference, one status and one history. You can see exactly
+        where a booking stands without asking anyone. The hotel sees the same thing you do.
+      </p>
+      <p>
+        You still receive email for anything that needs you. The email is a notification. The portal
+        is the record.
+      </p>
+      <div class="note">
+        <p>
+          <strong>Your rates and terms are not in here.</strong> The portal carries booking requests
+          and their answers. What you pay, and what you have agreed with the hotel, stays where it is
+          today: in your contract.
+        </p>
+      </div>
+    </section>
+
+    <section id="signin">
+      <h2><span class="num">02</span> Your first sign-in</h2>
+      <p class="lede">The hotel creates your login. You set the password.</p>
+      <p>
+        When a hotel adds your agency, they enter one email address for your company. That address
+        receives an email from the hotel with a link to set a password. The message comes from the
+        hotel's own name, so a subject line reading
+        <em>Ocean Bay Hotel would like to work with you</em> is genuine.
+      </p>
+
+      <ol class="steps">
+        <li><p>Open the email and follow the link. It expires, so use it the same day if you can.</p></li>
+        <li><p>Choose a password. It has to be one you have not used on the portal before.</p></li>
+        <li><p>You land on your dashboard. Nothing else is needed to start.</p></li>
+      </ol>
+
+      <figure class="shot filled">
+        <img src="images/agent-01.png" alt="The sign-in screen" loading="lazy">
+        <figcaption><b>The sign-in screen.</b> The plain login page at <span class="ref">/login</span>, with the email and password fields empty.</figcaption>
+      </figure>
+
+      <div class="note warn">
+        <p>
+          <strong>If the link has expired,</strong> use <em>Forgot password</em> on the sign-in page.
+          It sends a fresh link to the same address. Do not ask the hotel to reset it for you: they
+          cannot see or set your password, by design.
+        </p>
+      </div>
+
+      <h3>If you lose the email</h3>
+      <p>
+        Go to the portal address, choose <em>Forgot password</em>, and enter your work email. If an
+        account exists you will get a link. The page says the same thing either way, so nobody can use
+        it to find out whether a colleague has an account.
+      </p>
+    </section>
+
+    <section id="around">
+      <h2><span class="num">03</span> Finding your way around</h2>
+      <p class="lede">Seven places, and you will use two of them daily.</p>
+
+      <div class="scroller">
+        <table>
+          <caption>The sidebar, top to bottom</caption>
+          <thead>
+            <tr><th>Where</th><th>What it holds</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="who">Dashboard</td><td>What needs you today, and recent activity on your bookings.</td></tr>
+            <tr><td class="who">My bookings</td><td>Every request you have sent this hotel, with its status. Your daily screen.</td></tr>
+            <tr><td class="who">Notices</td><td>Announcements from the hotel: stop-sales, closures, changes to policy.</td></tr>
+            <tr><td class="who">Invitations</td><td>Other hotels asking to work with you. Carries a count when something is waiting.</td></tr>
+            <tr><td class="who">Profile</td><td>Your company details, as the hotel sees them.</td></tr>
+            <tr><td class="who">Documents</td><td>Your trade licence, insurance and anything else with an expiry date.</td></tr>
+            <tr><td class="who">Our agents</td><td>Logins for your own staff. Agency admins only.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <figure class="shot filled">
+        <img src="images/agent-02.png" alt="The agency sidebar" loading="lazy">
+        <figcaption><b>The agency sidebar.</b> The full left-hand navigation with your agency name and mark at the top.</figcaption>
+      </figure>
+
+      <h3>Search</h3>
+      <p>
+        Press <code>⌘K</code> on a Mac or <code>Ctrl+K</code> on Windows anywhere in the portal.
+        Type a guest surname, a booking reference, or part of one. It finds bookings, and it is faster
+        than scrolling the list.
+      </p>
+    </section>
+
+    <section id="request">
+      <h2><span class="num">04</span> Sending a booking request</h2>
+      <p class="lede">Three steps. Nothing is sent until the last one.</p>
+      <p>
+        From <em>My bookings</em>, choose <strong>New booking</strong>. If you work with more than one
+        hotel through the portal, you are asked which hotel first. It asks every time, on purpose.
+      </p>
+
+      <h3>Step 1 — Booking details</h3>
+      <p>
+        Dates, the lead guest's name, their nationality, and your own reference for this booking.
+        Your reference is the one your office uses. It appears on everything the hotel sends back,
+        so put the number your colleagues will recognise.
+      </p>
+
+      <figure class="shot filled">
+        <img src="images/agent-03.png" alt="Step 1 of the wizard" loading="lazy">
+        <figcaption><b>Step 1 of the wizard.</b> The progress rail showing <em>Booking details · Rooms &amp; guests · Voucher &amp; submit</em>, with step one filled in.</figcaption>
+      </figure>
+
+      <h3>Step 2 — Rooms and guests</h3>
+      <p>
+        Choose the room type and board basis the hotel offers, say how many of each, and enter the
+        guests. Children need an age. The portal asks for it here rather than letting you reach the
+        last step and be sent back.
+      </p>
+
+      <figure class="shot filled">
+        <img src="images/agent-04.png" alt="Step 2" loading="lazy">
+        <figcaption><b>Step 2.</b> The room category, how many rooms, and the guests. Children need an age here rather than at the last step.</figcaption>
+      </figure>
+
+      <h3>Step 3 — Voucher and submit</h3>
+      <p>
+        Attach your voucher, add any note the hotel needs, and submit. The note is read by the
+        reservations desk, so use it for the things that do not fit a field: a late arrival, a
+        honeymoon, a request for adjoining rooms.
+      </p>
+
+      <ol class="steps">
+        <li><p>Attach the voucher as a PDF or an image.</p></li>
+        <li><p>Read the summary. This is the last point at which nothing has been sent.</p></li>
+        <li><p>Choose <strong>Submit to hotel</strong>.</p></li>
+      </ol>
+
+      <figure class="shot filled">
+        <img src="images/agent-05.png" alt="Step 3" loading="lazy">
+        <figcaption><b>Step 3.</b> The voucher goes here. Steps one and two are ticked, and nothing has been sent yet.</figcaption>
+      </figure>
+
+      <p>
+        The moment you submit, the request gets a reference like
+        <span class="ref">OCB-26-000412</span>. Quote that reference in any email or phone call about
+        this booking. It is the one thing both sides can look up.
+      </p>
+
+      <div class="note">
+        <p>
+          <strong>Submitting is not a confirmation.</strong> The hotel has to accept it. Until the
+          status reads <span class="chip c-confirmed">Confirmed</span>, the rooms are not held.
+        </p>
+      </div>
+    </section>
+
+    <section id="drafts">
+      <h2><span class="num">05</span> Drafts</h2>
+      <p class="lede">A half-finished request is kept, not lost.</p>
+      <p>
+        If you leave the wizard before submitting, what you entered is saved as a draft. It appears in
+        <em>My bookings</em> marked <span class="chip c-draft">Draft</span>. Open it and carry on where
+        you stopped.
+      </p>
+      <p>
+        The hotel cannot see your drafts. Nothing reaches them until you submit.
+      </p>
+
+      <figure class="shot filled">
+        <img src="images/agent-06.png" alt="A draft in the list" loading="lazy">
+        <figcaption><b>A draft in the list.</b> <em>My bookings</em> with at least one draft row among submitted ones.</figcaption>
+      </figure>
+    </section>
+
+    <section id="statuses">
+      <h2><span class="num">06</span> What each status means</h2>
+      <p class="lede">Ten states. The colour and the word always agree.</p>
+      <p>
+        Every booking shows one of these. The table says what the status means and, more usefully,
+        whose turn it is.
+      </p>
+
+      <div class="scroller">
+        <table>
+          <caption>Booking statuses, and who has to act next</caption>
+          <thead>
+            <tr><th>Status</th><th>Meaning</th><th>Whose turn</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="chip c-draft">Draft</span></td>
+              <td>Started and not yet sent. Only you can see it.</td>
+              <td class="who">Yours</td>
+            </tr>
+            <tr>
+              <td><span class="chip c-submitted">Submitted</span></td>
+              <td>Sent to the hotel and waiting for an answer.</td>
+              <td class="who">The hotel</td>
+            </tr>
+            <tr>
+              <td><span class="chip c-amendment">Amendment requested</span></td>
+              <td>The hotel cannot accept it as it stands and has said why.</td>
+              <td class="who">Yours</td>
+            </tr>
+            <tr>
+              <td><span class="chip c-amended">Amended, pending</span></td>
+              <td>You have sent a corrected voucher and the hotel is looking again.</td>
+              <td class="who">The hotel</td>
+            </tr>
+            <tr>
+              <td><span class="chip c-confirmed">Confirmed</span></td>
+              <td>Accepted. The rooms are held.</td>
+              <td class="who">Nobody</td>
+            </tr>
+            <tr>
+              <td><span class="chip c-modification">Modification requested</span></td>
+              <td>You have asked to change a confirmed booking.</td>
+              <td class="who">The hotel</td>
+            </tr>
+            <tr>
+              <td><span class="chip c-cancelreq">Cancellation requested</span></td>
+              <td>You have asked to cancel a confirmed booking.</td>
+              <td class="who">The hotel</td>
+            </tr>
+            <tr>
+              <td><span class="chip c-cancelled">Cancelled</span></td>
+              <td>Withdrawn by you, or cancelled with the hotel's agreement.</td>
+              <td class="who">Closed</td>
+            </tr>
+            <tr>
+              <td><span class="chip c-rejected">Rejected</span></td>
+              <td>The hotel declined it. The reason is on the booking.</td>
+              <td class="who">Closed</td>
+            </tr>
+            <tr>
+              <td><span class="chip c-expired">Expired</span></td>
+              <td>Nobody acted for long enough that the portal closed it.</td>
+              <td class="who">Closed</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <figure class="shot filled">
+        <img src="images/agent-07.png" alt="The bookings list" loading="lazy">
+        <figcaption><b>The bookings list.</b> <em>My bookings</em> showing several different statuses at once.</figcaption>
+      </figure>
+
+      <div class="note warn">
+        <p>
+          <strong>Expired is avoidable.</strong> A request sitting in
+          <span class="chip c-submitted">Submitted</span> or
+          <span class="chip c-amendment">Amendment requested</span> for long enough is closed
+          automatically. If a booking matters and nothing has happened, telephone the hotel and quote
+          the reference.
+        </p>
+      </div>
+    </section>
+
+    <section id="amendment">
+      <h2><span class="num">07</span> When the hotel asks you to amend</h2>
+      <p class="lede">Something on the voucher does not match what they can give you.</p>
+      <p>
+        The hotel sets the status to <span class="chip c-amendment">Amendment requested</span> and
+        writes a reason. It is usually specific: <em>we confirmed two units, your voucher shows
+        three</em>, or a board basis that does not exist for those dates.
+      </p>
+
+      <ol class="steps">
+        <li><p>Open the booking from <em>My bookings</em> or from the email.</p></li>
+        <li><p>Read the reason at the top of the timeline.</p></li>
+        <li><p>Correct the booking and attach the corrected voucher.</p></li>
+        <li><p>Choose <strong>Submit amended voucher</strong>.</p></li>
+      </ol>
+
+      <p>
+        The status becomes <span class="chip c-amended">Amended, pending</span> and it is back with the
+        hotel. The whole exchange stays on the one booking, so nobody has to search an inbox for what
+        was agreed.
+      </p>
+
+      <figure class="shot filled">
+        <img src="images/agent-08.png" alt="An amendment request" loading="lazy">
+        <figcaption><b>An amendment request.</b> A booking detail page with the hotel's reason visible in the timeline.</figcaption>
+      </figure>
+
+      <h3>If you would rather drop it</h3>
+      <p>
+        You can choose <strong>Withdraw</strong> instead. The booking becomes
+        <span class="chip c-cancelled">Cancelled</span> and the hotel is told. Use it when the client
+        has gone elsewhere, rather than leaving the request to expire.
+      </p>
+    </section>
+
+    <section id="change">
+      <h2><span class="num">08</span> Changing or cancelling a confirmed booking</h2>
+      <p class="lede">You ask. The hotel decides.</p>
+      <p>
+        A confirmed booking is a commitment on both sides, so you cannot edit it directly. What you can
+        do is raise a request against it, and the rooms stay held while the hotel considers.
+      </p>
+
+      <div class="scroller">
+        <table>
+          <caption>The two requests you can raise on a confirmed booking</caption>
+          <thead>
+            <tr><th>You choose</th><th>Status becomes</th><th>Then</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="who">Request modification</td>
+              <td><span class="chip c-modification">Modification requested</span></td>
+              <td>The hotel approves it, or declines and says why. Either way it returns to
+                  <span class="chip c-confirmed">Confirmed</span>.</td>
+            </tr>
+            <tr>
+              <td class="who">Request cancellation</td>
+              <td><span class="chip c-cancelreq">Cancellation requested</span></td>
+              <td>Approved becomes <span class="chip c-cancelled">Cancelled</span>. Declined returns to
+                  <span class="chip c-confirmed">Confirmed</span> with a reason.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>
+        Say what is changing, not just that something is. <em>Check-out moves from 18 to 20 October,
+        same rooms</em> can be answered in a minute. <em>Please amend</em> cannot.
+      </p>
+
+      <div class="note">
+        <p>
+          <strong>Changed your mind before they answer?</strong> Choose <strong>Withdraw request</strong>
+          and the booking goes straight back to <span class="chip c-confirmed">Confirmed</span>,
+          untouched.
+        </p>
+      </div>
+
+      <figure class="shot filled">
+        <img src="images/agent-09.png" alt="Raising a change" loading="lazy">
+        <figcaption><b>Raising a change.</b> The modification request form on a confirmed booking, with a real sentence typed in.</figcaption>
+      </figure>
+
+      <div class="note stop">
+        <p>
+          <strong>A cancellation request is not a cancellation.</strong> Until the status reads
+          <span class="chip c-cancelled">Cancelled</span>, the booking stands and so does whatever your
+          contract says about cancellation.
+        </p>
+      </div>
+    </section>
+
+    <section id="availability">
+      <h2><span class="num">09</span> Asking about availability</h2>
+      <p class="lede">A question before there is a booking.</p>
+      <p>
+        If the hotel has turned this on, <em>Availability</em> appears in your sidebar. Use it to ask
+        whether something is possible before you promise it to a client: three doubles over New Year,
+        a late check-out, a group of twelve.
+      </p>
+      <p>
+        The reservations desk answers in the portal. An answer here is an indication, not a booking.
+        When the client agrees, send a booking request in the normal way.
+      </p>
+
+      
+    </section>
+
+    <section id="notices">
+      <h2><span class="num">10</span> Notices from the hotel</h2>
+      <p class="lede">Read these before you quote.</p>
+      <p>
+        <em>Notices</em> carries announcements the hotel sends to every agency at once: a pool closed
+        for resurfacing, a stop-sale over a long weekend, a change to check-in times. Some are
+        scheduled to appear on a particular date.
+      </p>
+      <p>
+        A notice is the hotel telling all of you the same thing at the same time, which is what stops
+        one agency selling something another has been told is closed.
+      </p>
+
+      <figure class="shot filled">
+        <img src="images/agent-11.png" alt="The notices list" loading="lazy">
+        <figcaption><b>The notices list.</b> At least one notice with a title and date.</figcaption>
+      </figure>
+    </section>
+
+    <section id="company">
+      <h2><span class="num">11</span> Your company profile</h2>
+      <p class="lede">What the hotel sees when they look you up.</p>
+      <p>
+        Under <em>Profile</em> are your company's legal name, trading name, country, address, and your
+        registration or VAT number where you have one. Under <em>Documents</em> go your trade licence,
+        insurance certificate and anything else with an expiry date.
+      </p>
+      <p>
+        Keep the expiry dates right. The portal warns the hotel before a document lapses, which is a
+        quiet reminder rather than an awkward conversation later.
+      </p>
+      <p>
+        There is also a reservations mailbox setting: whether booking email goes to your shared
+        mailbox with the individual agent copied, the other way round, or to both. Set it to match how
+        your office actually works.
+      </p>
+
+      <figure class="shot filled">
+        <img src="images/agent-12.png" alt="The company profile" loading="lazy">
+        <figcaption><b>The company profile.</b> <em>Profile</em> filled in with real company details.</figcaption>
+      </figure>
+
+      <div class="note warn">
+        <p>
+          <strong>A new agency starts incomplete.</strong> Until the profile is filled in and the hotel
+          has approved it, you may not be able to submit bookings. The dashboard says what is missing.
+        </p>
+      </div>
+    </section>
+
+    <section id="agents">
+      <h2><span class="num">12</span> Adding your own agents</h2>
+      <p class="lede">Agency admins only. One login each, never a shared one.</p>
+      <p>
+        Under <em>Our agents</em> an agency admin creates a login for each member of staff. They set
+        their own password, the same way you did.
+      </p>
+      <p>
+        One login each matters for a reason that only shows up later: every booking records who sent
+        it. When a question comes back six weeks on, you can see which of your colleagues handled it.
+        A shared login turns that into guesswork.
+      </p>
+
+      <div class="scroller">
+        <table>
+          <caption>The two agency roles</caption>
+          <thead>
+            <tr><th>Role</th><th>Can do</th><th>Cannot do</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="who">Agency admin</td>
+              <td>Everything below, plus the company profile, documents, contacts and staff logins.</td>
+              <td>See another agency's bookings.</td>
+            </tr>
+            <tr>
+              <td class="who">Agency staff</td>
+              <td>Create and view bookings, raise changes, ask about availability, read reports.</td>
+              <td>Edit the company profile or create logins.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <figure class="shot filled">
+        <img src="images/agent-13.png" alt="Our agents" loading="lazy">
+        <figcaption><b>Our agents.</b> The staff list with two or three people and their roles.</figcaption>
+      </figure>
+
+      <div class="note">
+        <p>
+          <strong>When someone leaves,</strong> deactivate them here the same day. The hotel cannot do
+          it for you, and an active login is an active login.
+        </p>
+      </div>
+    </section>
+
+    <section id="invitations">
+      <h2><span class="num">13</span> Working with more than one hotel</h2>
+      <p class="lede">One login, however many hotels.</p>
+      <p>
+        If a second hotel on the portal wants to work with you, they send an invitation. It appears
+        under <em>Invitations</em> with a count beside it, and you also get an email.
+      </p>
+
+      <ol class="steps">
+        <li><p>Open <em>Invitations</em>. Each one names the hotel that sent it.</p></li>
+        <li><p>Choose <strong>Accept</strong> to start working with them, or <strong>Decline</strong>.</p></li>
+        <li><p>Your company details carry across. You do not fill in the same form again.</p></li>
+      </ol>
+
+      <p>
+        After accepting, a hotel switcher appears in the portal. Each hotel sees only its own bookings
+        with you. One hotel suspending your account has no effect at any other.
+      </p>
+
+      <figure class="shot filled">
+        <img src="images/agent-14.png" alt="A waiting invitation" loading="lazy">
+        <figcaption><b>A waiting invitation.</b> The <em>Invitations</em> page with one hotel's invitation and the Accept and Decline buttons.</figcaption>
+      </figure>
+
+      <div class="note">
+        <p>
+          <strong>Declining is private.</strong> A declined invitation simply disappears. The hotel is
+          not told that you refused, only that nothing has been accepted.
+        </p>
+      </div>
+    </section>
+
+    <section id="trouble">
+      <h2><span class="num">14</span> When something looks wrong</h2>
+
+      <h3>You cannot sign in</h3>
+      <p>
+        Use <em>Forgot password</em> first. Too many wrong attempts locks the account for a while; wait,
+        then reset. If the hotel has suspended your agency, the sign-in page will say so.
+      </p>
+
+      <h3>You cannot submit a booking</h3>
+      <p>
+        Check the dashboard. The usual reasons are an incomplete company profile, an approval the hotel
+        has not given yet, or an expired document.
+      </p>
+
+      <h3>The hotel says they never received it</h3>
+      <p>
+        Look at the status. <span class="chip c-draft">Draft</span> means it was never sent.
+        Anything else means it reached them, and the timeline on the booking shows when.
+      </p>
+
+      <h3>An email never arrived</h3>
+      <p>
+        The portal is the record, so check it there first. If email is genuinely not arriving, tell the
+        hotel which address it should be going to; a bounced address stops receiving until it is fixed.
+      </p>
+
+      <div class="note">
+        <p>
+          <strong>When you contact the hotel,</strong> quote the booking reference
+          (<span class="ref">OCB-26-000412</span>) rather than the guest name. Names repeat.
+          References do not.
+        </p>
+      </div>
+
+      </section>
+
+  </main>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p>
+      Ocean Bay Hotel reservations portal. Written for travel agency staff. If something in this
+      handbook does not match what you see on screen, the screen is right and this page needs
+      correcting — tell the hotel's reservations team.
+    </p>
+  </div>
+</footer>
+
+</body></html>
